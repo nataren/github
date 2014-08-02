@@ -94,5 +94,5 @@ mergePullRequest auth reqRepoOwner reqRepoName reqPullRequestNumber commitMessag
   doHttpsStatus "PUT" (buildUrl ["repos", reqRepoOwner, reqRepoName, "pulls", (show reqPullRequestNumber), "merge"]) auth (Just . RequestBodyLBS . encode . toJSON $ (buildCommitMessageMap commitMessage))
 
 buildCommitMessageMap :: Maybe String -> M.Map String String
-buildCommitMessageMap (Just commitMessage) = M.fromList [("commit_message", commitMessage)]
-buildCommitMessageMap _ = M.fromList []
+buildCommitMessageMap (Just commitMessage) = M.singleton "commit_message" commitMessage
+buildCommitMessageMap _ = M.empty
